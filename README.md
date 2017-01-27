@@ -19,7 +19,10 @@ TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG A
 
 - Examples of how to use it
     - Navigate to the directory where tinypngcompressor.py is (or just use its path) and type:
-    - `python tinypngcompressor.py [directory to be compressed path] [OPTIONAL --verbose]`
-    - A real example: `python tinypngcompressor.py /Users/me/Documents/somefolderwithpngsorjpgs --verbose`
-    - Without `--verbose` it would look like this: `python tinypngcompressor.py /Users/me/Documents/somefolderwithpngsorjpgs`
-    - If you can assign executions permissions to the file, you can run it like this: `./tinypngcompressor.py [directory to be compressed path] [OPTIONAL --verbose]`
+    `python tinypngcompressor.py [directory to be compressed path] [OPTIONAL --verbose]`
+    - A real example: 
+    `python tinypngcompressor.py /Users/me/Documents/somefolderwithpngsorjpgs --verbose`
+    - Without `--verbose` it would look like this: 
+    `python tinypngcompressor.py /Users/me/Documents/somefolderwithpngsorjpgs`
+    - If you can assign executions permissions to the file, you can run it like this
+    `./tinypngcompressor.py [directory to be compressed path] [OPTIONAL --verbose]`
