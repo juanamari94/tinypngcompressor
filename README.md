@@ -6,7 +6,7 @@ TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG A
 
 - An internet connection.
 
-- TinyPNGCompressor was built around **Python 2.7.10**, although it should work with any Python 2.7.x version, and more than likely with previous versions as well. You can download Python 2.7.13 from [python.org's official site.](https://www.python.org/downloads/release/python-2713/)
+- TinyPNGCompressor was built around **Python 2.7.10**, although it should work with any Python 2.7.x version, and more than likely with previous versions as well. You can download Python 2.7.13 from [python.org's official site.](https://www.python.org/downloads/release/python-2713/). You can check your Python version by running `python --version` in your console.
 
 - **You have to install TiniPNG's Package with pip. You can do this by typing** `pip install --upgrade tinify` if it throws an error you more than likely have to use `sudo`, just so: `sudo pip install --upgrade tinify`.
 
@@ -30,6 +30,7 @@ TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG A
 
     `python tinypngcompressor.py /Users/me/Documents/somefolderwithpngsorjpgs`
     - If you can assign execution permissions to the file, you can run it like this (you can assign it with `chmod 754 tinypngcompressor.py`)
+    
     `./tinypngcompressor.py [directory to be compressed path] [OPTIONAL --verbose]`
 
 - **After you've started running the program, it will ask for an API Key which you must provide in order to compress the file.**
