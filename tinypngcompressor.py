@@ -33,7 +33,7 @@ def main():
             print("\nSource directory does not exist. Provide the full path of the directory as the first parameter when you run the script.") # Notify it.
             return # Finish execution.
 
-        print("\n Welcome to TinyPNGCompressor!\nPlease enter a TinyPNG API Key.")
+        print("\nWelcome to TinyPNGCompressor!\nPlease enter a TinyPNG API Key.")
         tinify.key = raw_input()
 
         is_verbose = None
