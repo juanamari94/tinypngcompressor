@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# DS Store and other directores
+.idea
+.DS_Store
