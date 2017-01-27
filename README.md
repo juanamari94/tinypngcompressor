@@ -29,11 +29,10 @@ TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG A
     - Without `--verbose` it would look like this:
 
     `python tinypngcompressor.py /Users/me/Documents/somefolderwithpngsorjpgs`
-    - If you can assign executions permissions to the file, you can run it like this
-
+    - If you can assign execution permissions to the file, you can run it like this (you can assign it with `chmod 754 tinypngcompressor.py`)
     `./tinypngcompressor.py [directory to be compressed path] [OPTIONAL --verbose]`
 
-- ** After you've started running the program, it will ask for an API Key which you must provide in order to compress the file. **
+- **After you've started running the program, it will ask for an API Key which you must provide in order to compress the file.**
 
 ## Details
 
