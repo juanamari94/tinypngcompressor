@@ -7,6 +7,14 @@ import subprocess
 
 tinify.key = "9x6LTmWtvaeaMcb3Bna5cwIxEctgP5Pv"
 
+def get_size_in_kilobytes(start_path = '.'):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(start_path):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            total_size += os.path.getsize(fp)
+    return total_size / 1000
+
 # Receives source directory and creates a _tiny directory in the same parent directory.
 
 def main():
@@ -19,17 +27,17 @@ def main():
             print("Source directory does not exist.") # Notify it.
         else:
             destination_dir = source_dir + "_tiny"
-            shutil.copytree(source_dir, destination_dir)
+            #shutil.copytree(source_dir, destination_dir)
             print("\nCompressing... This might take a while.")
-            for root, subfolders, files in os.walk(destination_dir): #Walk the directory
-                for file in files:
-                    if file.endswith('.png'):
-                        source_full_path = root + "/" +file # Gotta get the full path
-                        print("Compressing file: " + file)
-                        tinify.from_file(source_full_path).to_file(source_full_path)
+            #for root, subfolders, files in os.walk(destination_dir): #Walk the directory
+            #    for file in files:
+            #        if file.endswith('.png'):
+            #            source_full_path = root + "/" +file # Gotta get the full path
+            #            print("Compressing file: " + file)
+            #            tinify.from_file(source_full_path).to_file(source_full_path)
             print("Done!\n")
-            script_path = os.path.dirname(os.path.realpath(__file__)) # Get script path
-            subprocess.call(script_path + "/sizecalculator.sh " + source_dir + " " + destination_dir, shell=True) # Running shell command because it's faster to get size this way.
+            print(get_size_in_kilobytes(source_dir))
+            print(get_size_in_kilobytes(destination_dir))
     else:
         print("Invalid arguments.")
 
