@@ -4,6 +4,7 @@ import shutil
 import sys
 import tinify
 import subprocess
+import traceback
 
 tinify.key = None
 
@@ -44,6 +45,8 @@ def main():
 
         destination_dir = source_dir + "_tiny"
 
+        error_string = ""
+
         if os.path.isdir(destination_dir): # Delete the _tiny directory if it exists.
             shutil.rmtree(destination_dir)
         shutil.copytree(source_dir, destination_dir) # Create a copy of the tree
@@ -59,9 +62,12 @@ def main():
                         else:
                             sys.stdout.write(".")
                             sys.stdout.flush()
-                    except (tinify.errors.AccountError, tinify.errors.ServerError):
-                        print("There was an error talking to the API. You more than likely ran out of calls to the TinyPNG API or your API Key is invalid.")
-                        return # Break out, no point in trying.
+                    except Exception, e:
+                        error_string += "\nThere was an error compressing file: " + file + ": " + str(e) + "\n"
+
+        if(error_string != ""):
+            print(error_string)
+        
         print("\nDone!")
 
         # Parsing and assigning variables so that printing doesn't look like a complete mess
