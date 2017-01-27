@@ -7,6 +7,7 @@ import subprocess
 
 tinify.key = "9x6LTmWtvaeaMcb3Bna5cwIxEctgP5Pv"
 
+# Credit to monkut from Stackoverflow for this function. http://stackoverflow.com/a/1392549/5655734
 def get_size_in_kilobytes(start_path = '.', directory_list = None):
     total_size = 0
     for dirpath, dirnames, filenames in os.walk(start_path):
@@ -15,12 +16,23 @@ def get_size_in_kilobytes(start_path = '.', directory_list = None):
             total_size += os.path.getsize(fp)
     return total_size / 1000
 
+# You have to install the tinify package with pip: pip install --upgrade tinify
+# If that doesn't work run it with sudo: sudo pip install --upgrade tinify
+# For more information: https://github.com/tinify/tinify-python
 # Receives source directory and creates a _tiny directory in the same parent directory.
+# You NEED to provide your own tinify API Key. Unless you pay (something around 0.009c for each compression) after 500 free API calls.
+# https://tinypng.com/developers to retrieve your key.
 
 def main():
     # Gotta validate that user input
-    if len(sys.argv) == 2:
+    args_len = len(sys.argv)
+    if args_len >= 2 and args_len <= 3:
         source_dir = sys.argv[1]
+        is_verbose = None
+        try:
+            is_verbose = sys.argv[2]
+        except IndexError:
+            print("By default Verbosity is disabled.")
         if not os.path.isdir(source_dir): # If source path doesn't exist.
             print("Source directory does not exist.") # Notify it.
         else:
@@ -33,8 +45,12 @@ def main():
                 for file in files:
                     if file.endswith(".png"):
                         source_full_path = root + "/" +file # Gotta get the full path
-                        sys.stdout.write(".")
-                        sys.stdout.flush()
+                        if is_verbose.lower() == "--verbose":
+                            print("Compressing " + file)
+                        else:
+                            sys.stdout.write(".")
+                            sys.stdout.flush()
+
                         tinify.from_file(source_full_path).to_file(source_full_path) # This will fail if you run out of compression calls to the TinyPNG API.
             print("\nDone!")
 
@@ -51,6 +67,7 @@ def main():
             str(uncompressed_dir_size) + "\t\t" + shortened_destination_name,
             str(size_difference_between_dirs) + "\t\tDifference"]
             maximum_length = len(max(display_list, key=len))
+
             for label in display_list:
                 print(label)
                 print("-" * (maximum_length + 10))
