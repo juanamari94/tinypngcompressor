@@ -50,7 +50,7 @@ def main():
         print("\nCompressing... This might take a while.")
         for root, subfolders, files in os.walk(destination_dir): #Walk the directory
             for file in files:
-                if file.endswith(".png"):
+                if file.endswith(".png") or file.endswith(".jpg"):
                     source_full_path = root + "/" +file # Gotta get the full path
                     try:
                         tinify.from_file(source_full_path).to_file(source_full_path) # This will fail if you run out of compression calls to the TinyPNG API.
