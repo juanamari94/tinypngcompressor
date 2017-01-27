@@ -27,17 +27,17 @@ def main():
             print("Source directory does not exist.") # Notify it.
         else:
             destination_dir = source_dir + "_tiny"
-            #shutil.copytree(source_dir, destination_dir)
+            shutil.copytree(source_dir, destination_dir)
             print("\nCompressing... This might take a while.")
-            #for root, subfolders, files in os.walk(destination_dir): #Walk the directory
-            #    for file in files:
-            #        if file.endswith('.png'):
-            #            source_full_path = root + "/" +file # Gotta get the full path
-            #            print("Compressing file: " + file)
-            #            tinify.from_file(source_full_path).to_file(source_full_path)
+            for root, subfolders, files in os.walk(destination_dir): #Walk the directory
+                for file in files:
+                    if file.endswith('.png'):
+                        source_full_path = root + "/" +file # Gotta get the full path
+                        tinify.from_file(source_full_path).to_file(source_full_path)
             print("Done!\n")
-            print(get_size_in_kilobytes(source_dir))
-            print(get_size_in_kilobytes(destination_dir))
+            print("Differences in directories:")
+            print("Uncompressed directory: " + str(get_size_in_kilobytes(source_dir)) + " KB")
+            print("Comrpessed directory: " + str(get_size_in_kilobytes(destination_dir)) + " KB")
     else:
         print("Invalid arguments.")
 
