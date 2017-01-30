@@ -30,7 +30,7 @@ TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG A
 
     `python tinypngcompressor.py /Users/me/Documents/somefolderwithpngsorjpgs`
     - If you can assign execution permissions to the file, you can run it like this (you can assign it with `chmod 754 tinypngcompressor.py`)
-    
+
     `./tinypngcompressor.py [directory to be compressed path] [OPTIONAL --verbose]`
 
 - **After you've started running the program, it will ask for an API Key which you must provide in order to compress the file.**
@@ -40,3 +40,4 @@ TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG A
 - TinyPNGCompressor will create a copy of the directory and start compressing that copy, leaving the original directory unmodified.
 - If the copy with the _tiny suffix already exists, it will delete it and start all over.
 - Due to the nature of the operations that are performed, such as copying the directory and processing it when sent to TinyPNG, the compressed files' metadata might change.
+- Sometimes the API will fail to compress a file and return an error. Out of around 250 files it happened with two in my case. Usually just uploading the files with errors to [TinyPNG by hand](https://tinypng.com) will work.

@@ -17,6 +17,11 @@ def get_size_in_kilobytes(start_path = '.', directory_list = None):
             total_size += os.path.getsize(fp)
     return total_size / 1000
 
+def check_verbosity(verbose):
+    if verbose is not None and verbose.lower() == "--verbose":
+        return True
+    return False
+
 # You have to install the tinify package with pip: pip install --upgrade tinify
 # If that doesn't work run it with sudo: sudo pip install --upgrade tinify
 # For more information: https://github.com/tinify/tinify-python
@@ -37,9 +42,9 @@ def main():
         print("\nWelcome to TinyPNGCompressor!\nPlease enter a TinyPNG API Key.")
         tinify.key = raw_input()
 
-        is_verbose = None
+        verbose = None
         try:
-            is_verbose = sys.argv[2]
+            verbose = sys.argv[2]
         except IndexError:
             print("By default Verbosity is disabled.")
 
@@ -57,7 +62,7 @@ def main():
                     source_full_path = root + "/" +file # Gotta get the full path
                     try:
                         tinify.from_file(source_full_path).to_file(source_full_path) # This will fail if you run out of compression calls to the TinyPNG API.
-                        if is_verbose is not None and is_verbose.lower() == "--verbose":
+                        if check_verbosity(verbose):
                             print("Compressed " + file)
                         else:
                             sys.stdout.write(".")
@@ -66,8 +71,10 @@ def main():
                         print str(e)
                         return
                     except tinify.errors.ServerError, e:
-                        print(str(e))
-                        error_string += "\nThere was an error compressing file: " + file + ": " + str(e)
+                        file_path = root + "/" + file
+                        if check_verbosity(verbose):
+                            print("Error while compressing file " + file_path + " - " + str(e))
+                        error_string += "\nThere was an error compressing file " + file_path + " - " + str(e)
 
         if(error_string != ""):
             print(error_string)
@@ -91,7 +98,7 @@ def main():
         for label in display_list:
             print(label)
             print("-" * (maximum_length + 10))
-        print("You can find the directory with the compressed files in: " + destination_dir)
+        print("\nYou can find the directory with the compressed files in: " + destination_dir)
     else:
         print("Invalid arguments.")
 
