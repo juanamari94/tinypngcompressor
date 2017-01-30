@@ -62,12 +62,16 @@ def main():
                         else:
                             sys.stdout.write(".")
                             sys.stdout.flush()
-                    except Exception, e:
-                        error_string += "\nThere was an error compressing file: " + file + ": " + str(e) + "\n"
+                    except tinify.errors.AccountError, e:
+                        print str(e)
+                        return
+                    except tinify.errors.ServerError, e:
+                        print(str(e))
+                        error_string += "\nThere was an error compressing file: " + file + ": " + str(e)
 
         if(error_string != ""):
             print(error_string)
-        
+
         print("\nDone!")
 
         # Parsing and assigning variables so that printing doesn't look like a complete mess
@@ -87,6 +91,7 @@ def main():
         for label in display_list:
             print(label)
             print("-" * (maximum_length + 10))
+        print("You can find the directory with the compressed files in: " + destination_dir)
     else:
         print("Invalid arguments.")
 

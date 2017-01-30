@@ -91,3 +91,5 @@ ENV/
 # DS Store and other directores
 .idea
 .DS_Store
+testdir/
+testdir_tiny/
