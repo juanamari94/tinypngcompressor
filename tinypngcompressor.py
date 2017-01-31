@@ -51,6 +51,7 @@ def main():
         destination_dir = source_dir + "_tiny"
 
         error_string = ""
+        failed_files = []
 
         if os.path.isdir(destination_dir): # Delete the _tiny directory if it exists.
             shutil.rmtree(destination_dir)
@@ -59,7 +60,7 @@ def main():
         for root, subfolders, files in os.walk(destination_dir): #Walk the directory
             for file in files:
                 if file.endswith(".png") or file.endswith(".jpg"):
-                    source_full_path = root + "/" +file # Gotta get the full path
+                    source_full_path = root + "/" + file # Gotta get the full path
                     try:
                         tinify.from_file(source_full_path).to_file(source_full_path) # This will fail if you run out of compression calls to the TinyPNG API.
                         if check_verbosity(verbose):
@@ -72,12 +73,31 @@ def main():
                         return
                     except tinify.errors.ServerError, e:
                         file_path = root + "/" + file
+                        failed_files.append(file_path)
                         if check_verbosity(verbose):
                             print("Error while compressing file " + file_path + " - " + str(e))
                         error_string += "\nThere was an error compressing file " + file_path + " - " + str(e)
 
         if(error_string != ""):
             print(error_string)
+
+        # Did something fail?
+        if not failed_files:
+            print("\nRetrying with failed files...")
+            for file_path in failed_files:
+                try:
+                    tinify.from_file(file_path).to_file(file_path)
+                    failed_files.remove(file_path)
+                except tinify.errors.AccountError, e:
+                    print str(e)
+                except tinify.errors.ServerError, e:
+                    print("There was yet another error with: " + file_path)
+
+        # Are there no more failures?
+        if failed_files:
+            print("\nThe following files still have errors after retrying: ")
+            for file in failed_files:
+                print(file)
 
         print("\nDone!")
 
