@@ -8,6 +8,8 @@ import traceback
 
 tinify.key = None
 
+MAX_ITERATIONS = 3
+
 # Credit to monkut from Stackoverflow for this function. http://stackoverflow.com/a/1392549/5655734
 def get_size_in_kilobytes(start_path = '.', directory_list = None):
     total_size = 0
@@ -81,21 +83,29 @@ def main():
         if(error_string != ""):
             print(error_string)
 
-        # Did something fail?
-        if not failed_files:
+        # This is a while with an iterator, using a MAX_ITERATIONS constant
+        current_iteration = 0
+        while failed_files and current_iteration < MAX_ITERATIONS:
             print("\nRetrying with failed files...")
             for file_path in failed_files:
+                shortened_file_name = file_path[file_path.rfind("/"):]
+                print("Retrying with " + shortened_file_name)
                 try:
                     tinify.from_file(file_path).to_file(file_path)
                     failed_files.remove(file_path)
+                    print("Success!")
                 except tinify.errors.AccountError, e:
                     print str(e)
+                    return
                 except tinify.errors.ServerError, e:
-                    print("There was yet another error with: " + file_path)
+                    print("There was yet another error with: " + shortened_file_name + " Error: " + str(e))
+                except Exception, e:
+                    print(str(e))
+            current_iteration += 1
 
         # Are there no more failures?
         if failed_files:
-            print("\nThe following files still have errors after retrying: ")
+            print("\nThe following files still have errors after retrying " + MAX_ITERATIONS + " times.")
             for file in failed_files:
                 print(file)
 
