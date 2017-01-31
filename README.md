@@ -16,7 +16,7 @@ TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG A
 
 - TinyPNGCompressor is run through the console and takes two parameters from it:
     - The **full** path of the directory where the PNGs or JPGs are in.
-    - An optional path called `--verbose` which will output which file has been compressed after it has been sent to TinyPNG.
+    - An optional parameter called `--verbose` which will output which file has been compressed after it has been sent to TinyPNG.
     - TinyPNGCompressor will create a folder in the same directory the folder to be compressed is in, and it will have the same name with a _tiny suffix. If you compress the contents of **somefolder** the output will be **somefolder_tiny.**
 
 - Examples of how to use it
