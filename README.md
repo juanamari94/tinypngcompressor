@@ -2,8 +2,6 @@
 
 TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG API. It compresses a given directory and all of its subdirectories' PNG or JPG files.
 
-- If you'd like to use the somewhat "experimental" (but not really experimental) version that has the **added feature of retrying for failed files**, check out the other branch (feature/retries-for-failed-files)
-
 ## Requirements
 
 - An internet connection.
