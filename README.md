@@ -45,4 +45,4 @@ TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG A
 - If the copy with the _tiny suffix already exists, it will delete it and start all over.
 - Due to the nature of the operations that are performed, such as copying the directory and processing it when sent to TinyPNG, the compressed files' metadata might change.
 - Sometimes the API will fail to compress a file and return an error. Out of around 250 files it happened with two in my case. Usually just uploading the files with errors to [TinyPNG by hand](https://tinypng.com) will work.
-- From behind the scenes, the script is **recurvise**, you can see this by checking out the `os.walk` and `shutil.copytree` and `shutil.rmtree`.
+- From behind the scenes, the script is **recurvise**, you can see this by checking out the `os.walk` and `shutil.copytree` and `shutil.rmtree` methods (os and shutil are native python packages).
