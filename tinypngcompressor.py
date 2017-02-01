@@ -86,7 +86,7 @@ def main():
         # This is a while with an iterator, using a MAX_ITERATIONS constant
         current_iteration = 0
         while failed_files and current_iteration < MAX_ITERATIONS:
-            print("\nRetrying with failed files...")
+            print("\nRetrying with failed files - Round " + current_iteration + 1)
             for file_path in failed_files:
                 shortened_file_name = file_path[file_path.rfind("/"):]
                 print("Retrying with " + shortened_file_name)
