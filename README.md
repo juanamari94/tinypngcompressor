@@ -2,6 +2,8 @@
 
 TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG API. It compresses a given directory and all of its subdirectories' PNG or JPG files.
 
+- If you'd like to use the somewhat "experimental" (but not really experimental) version that has the **added feature of retrying for failed files**, check out the other branch (feature/retries-for-failed-files)
+
 ## Requirements
 
 - An internet connection.
@@ -35,9 +37,12 @@ TinyPNGCompressor is a simple tool written in Python that consumes the TinyPNG A
 
 - **After you've started running the program, it will ask for an API Key which you must provide in order to compress the file.**
 
+- **If the script takes too long before it has started compressing, it more than likely has something to do with the amount of files that the script has to copy in order to create a cloned directory.** I recommend that you use the directory with the assets as the root directory rather than the entire project.
+
 ## Details
 
 - TinyPNGCompressor will create a copy of the directory and start compressing that copy, leaving the original directory unmodified.
 - If the copy with the _tiny suffix already exists, it will delete it and start all over.
 - Due to the nature of the operations that are performed, such as copying the directory and processing it when sent to TinyPNG, the compressed files' metadata might change.
 - Sometimes the API will fail to compress a file and return an error. Out of around 250 files it happened with two in my case. Usually just uploading the files with errors to [TinyPNG by hand](https://tinypng.com) will work.
+- From behind the scenes, the script is **recurvise**, you can see this by checking out the `os.walk` and `shutil.copytree` and `shutil.rmtree`.
