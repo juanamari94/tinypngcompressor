@@ -8,6 +8,8 @@ import traceback
 
 tinify.key = None
 
+MAX_ITERATIONS = 3
+
 # Credit to monkut from Stackoverflow for this function. http://stackoverflow.com/a/1392549/5655734
 def get_size_in_kilobytes(start_path = '.', directory_list = None):
     total_size = 0
@@ -51,6 +53,7 @@ def main():
         destination_dir = source_dir + "_tiny"
 
         error_string = ""
+        failed_files = []
 
         if os.path.isdir(destination_dir): # Delete the _tiny directory if it exists.
             shutil.rmtree(destination_dir)
@@ -59,7 +62,7 @@ def main():
         for root, subfolders, files in os.walk(destination_dir): #Walk the directory
             for file in files:
                 if file.endswith(".png") or file.endswith(".jpg"):
-                    source_full_path = root + "/" +file # Gotta get the full path
+                    source_full_path = root + "/" + file # Gotta get the full path
                     try:
                         tinify.from_file(source_full_path).to_file(source_full_path) # This will fail if you run out of compression calls to the TinyPNG API.
                         if check_verbosity(verbose):
@@ -72,12 +75,39 @@ def main():
                         return
                     except tinify.errors.ServerError, e:
                         file_path = root + "/" + file
+                        failed_files.append(file_path)
                         if check_verbosity(verbose):
                             print("Error while compressing file " + file_path + " - " + str(e))
                         error_string += "\nThere was an error compressing file " + file_path + " - " + str(e)
 
         if(error_string != ""):
             print(error_string)
+
+        # This is a while with an iterator, using a MAX_ITERATIONS constant
+        current_iteration = 0
+        while failed_files and current_iteration < MAX_ITERATIONS:
+            print("\nRetrying with failed files - Round " + current_iteration + 1)
+            for file_path in failed_files:
+                shortened_file_name = file_path[file_path.rfind("/"):]
+                print("Retrying with " + shortened_file_name)
+                try:
+                    tinify.from_file(file_path).to_file(file_path)
+                    failed_files.remove(file_path)
+                    print("Success!")
+                except tinify.errors.AccountError, e:
+                    print str(e)
+                    return
+                except tinify.errors.ServerError, e:
+                    print("There was yet another error with: " + shortened_file_name + " Error: " + str(e))
+                except Exception, e:
+                    print(str(e))
+            current_iteration += 1
+
+        # Are there no more failures?
+        if failed_files:
+            print("\nThe following files still have errors after retrying " + MAX_ITERATIONS + " times.")
+            for file in failed_files:
+                print(file)
 
         print("\nDone!")
 
